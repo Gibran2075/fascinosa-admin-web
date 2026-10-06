@@ -29,13 +29,13 @@
 
   var TOTAL_MEMBERS_LABEL = '1,245';
   var AVATAR_GRADIENTS = [
-    'linear-gradient(135deg,#6366F1,#8B5CF6)',
+    'linear-gradient(135deg,#DC2626,#991B1B)',
     'linear-gradient(135deg,#10B981,#059669)',
     'linear-gradient(135deg,#F59E0B,#F97316)',
     'linear-gradient(135deg,#EC4899,#DB2777)',
     'linear-gradient(135deg,#0EA5E9,#2563EB)',
     'linear-gradient(135deg,#14B8A6,#0D9488)',
-    'linear-gradient(135deg,#8B5CF6,#6D28D9)',
+    'linear-gradient(135deg,#B91C1C,#7F1D1D)',
     'linear-gradient(135deg,#EF4444,#DC2626)'
   ];
 
@@ -685,11 +685,11 @@
       var chart = context.chart;
       var ctx = chart.ctx;
       var area = chart.chartArea;
-      if (!area) return 'rgba(79,70,229,0.15)';
+      if (!area) return 'rgba(220, 38, 38, 0.15)';
       var gradient = ctx.createLinearGradient(0, area.top, 0, area.bottom);
-      gradient.addColorStop(0, 'rgba(79, 70, 229, 0.30)');
-      gradient.addColorStop(0.6, 'rgba(79, 70, 229, 0.08)');
-      gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
+      gradient.addColorStop(0, 'rgba(220, 38, 38, 0.28)');
+      gradient.addColorStop(0.6, 'rgba(220, 38, 38, 0.08)');
+      gradient.addColorStop(1, 'rgba(220, 38, 38, 0)');
       return gradient;
     };
 
@@ -701,14 +701,14 @@
           {
             label: 'Member Baru',
             data: values,
-            borderColor: '#4F46E5',
+            borderColor: '#DC2626',
             borderWidth: 2.5,
             backgroundColor: areaGradient,
             fill: true,
             tension: 0.4,
             pointRadius: 0,
             pointHoverRadius: 6,
-            pointHoverBackgroundColor: '#4F46E5',
+            pointHoverBackgroundColor: '#DC2626',
             pointHoverBorderColor: '#FFFFFF',
             pointHoverBorderWidth: 3
           },
