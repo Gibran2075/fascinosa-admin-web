@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login · FASCINOSA Admin Portal</title>
+  <meta name="description" content="Halaman login Admin Portal untuk dashboard Toko Fashion FASCINOSA." />
+  <meta name="theme-color" content="#0A0F1F" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234F46E5'/><text x='50' y='70' font-size='60' font-family='Arial,Helvetica,sans-serif' font-weight='bold' fill='white' text-anchor='middle'>F</text></svg>" />
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC',
+              400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA',
+              800: '#3730A3', 900: '#312E81'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="assets/css/admin.css" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="min-h-screen bg-[#F9FAFB] font-sans text-slate-800 antialiased">
+  <div class="grid min-h-screen lg:grid-cols-2">
+
+    <!-- ============================================================
+         PANEL KIRIM — Brand / Dark panel
+         ============================================================ -->
+    <section class="login-brand relative hidden overflow-hidden px-10 py-10 lg:flex lg:flex-col xl:px-14">
+      <div class="login-glow left-[-6rem] top-[-4rem] h-72 w-72 bg-indigo-600"></div>
+      <div class="login-glow bottom-[-6rem] right-[-4rem] h-80 w-80 bg-purple-600"></div>
+
+      <!-- Logo -->
+      <header class="relative z-10 flex items-center gap-3">
+        <div class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-lg font-extrabold text-white shadow-lg shadow-indigo-900/50">F</div>
+        <div class="leading-tight">
+          <p class="text-[15px] font-extrabold tracking-tight text-white">FASCINOSA</p>
+          <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-300">Admin Portal</p>
+        </div>
+        <span class="brand-chip ml-auto">Secure</span>
+      </header>
+
+      <!-- Headline -->
+      <div class="relative z-10 mt-auto max-w-md">
+        <span class="brand-chip">Dashboard v1.0 · Phase 1</span>
+        <h1 class="mt-5 text-[34px] font-extrabold leading-[1.15] tracking-tight text-white xl:text-[40px]">
+          Satu pintu untuk mengelola<br />
+          <span class="bg-gradient-to-r from-indigo-300 via-purple-300 to-indigo-200 bg-clip-text text-transparent">member FASCINOSA.</span>
+        </h1>
+        <p class="mt-4 text-sm leading-relaxed text-slate-300/85">
+          Pantau pertumbuhan member, status keanggotaan, dan performa loyalitas toko fashion Anda — semuanya dalam satu dashboard yang bersih dan cepat.
+        </p>
+
+        <!-- Features -->
+        <div class="mt-8 border-t border-white/10 pt-2">
+          <div class="brand-feature">
+            <span class="bf-icon"><i data-lucide="users" class="h-4 w-4"></i></span>
+            <div>
+              <p class="text-sm font-bold text-white">Data Member Terpusat</p>
+              <p class="text-xs text-slate-400">1.245 member tersimpan rapi & mudah dicari.</p>
+            </div>
+          </div>
+          <div class="brand-feature">
+            <span class="bf-icon"><i data-lucide="trending-up" class="h-4 w-4"></i></span>
+            <div>
+              <p class="text-sm font-bold text-white">Statistik Pertumbuhan Real-time</p>
+              <p class="text-xs text-slate-400">Grafik interaktif member baru Jan – Okt 2026.</p>
+            </div>
+          </div>
+          <div class="brand-feature">
+            <span class="bf-icon"><i data-lucide="download" class="h-4 w-4"></i></span>
+            <div>
+              <p class="text-sm font-bold text-white">Ekspor Excel Satu Klik</p>
+              <p class="text-xs text-slate-400">Unduh data member asli format .xlsx via SheetJS.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="relative z-10 mt-10 flex items-center justify-between border-t border-white/10 pt-5 text-[11px] font-medium text-slate-400">
+        <span>© 2026 FASCINOSA Fashion Store</span>
+        <span>Admin Dashboard</span>
+      </footer>
+    </section>
+
+    <!-- ============================================================
+         PANEL KANAN — Form Login (Light)
+         ============================================================ -->
+    <section class="flex items-center justify-center px-5 py-10 sm:px-10">
+      <main class="w-full max-w-[420px] fade-up">
+
+        <!-- Logo versi mobile -->
+        <div class="mb-8 flex items-center gap-3 lg:hidden">
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-purple-600 text-lg font-extrabold text-white shadow-lg shadow-brand-600/30">F</div>
+          <div class="leading-tight">
+            <p class="text-[15px] font-extrabold tracking-tight text-slate-900">FASCINOSA</p>
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Admin Portal</p>
+          </div>
+        </div>
+
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Selamat datang kembali</p>
+        <h2 class="mt-2 text-[26px] font-extrabold leading-tight tracking-tight text-slate-900">Masuk ke akun admin</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-slate-500">Gunakan kredensial admin FASCINOSA untuk mengakses dashboard.</p>
+
+        <!-- Alert -->
+        <div id="loginAlert" data-type="info" class="mt-5 hidden" role="alert" aria-live="polite">
+          <i data-lucide="info" class="mt-0.5 h-4 w-4 flex-none"></i>
+          <span id="loginAlertText"></span>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" class="mt-6 space-y-4" novalidate>
+          <!-- Username / Email -->
+          <div>
+            <label for="loginUsername" class="mb-1.5 block text-[13px] font-bold text-slate-700">Username / Email</label>
+            <div class="relative">
+              <i data-lucide="user" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+              <input
+                id="loginUsername"
+                name="username"
+                type="text"
+                class="field-input pl-10"
+                placeholder="admin@fascinosa.com"
+                autocomplete="username"
+                aria-label="Username atau email admin" />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="loginPassword" class="mb-1.5 block text-[13px] font-bold text-slate-700">Password</label>
+            <div class="relative">
+              <i data-lucide="lock" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                class="field-input pl-10 pr-11"
+                placeholder="••••••••••••"
+                autocomplete="current-password"
+                aria-label="Password admin" />
+              <button
+                type="button"
+                id="togglePassword"
+                class="absolute right-1.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                aria-label="Tampilkan password">
+                <span id="iconEyeShow"><i data-lucide="eye" class="h-4 w-4"></i></span>
+                <span id="iconEyeHide" class="hidden"><i data-lucide="eye-off" class="h-4 w-4"></i></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember me -->
+          <div class="flex items-center justify-between pt-1">
+            <label for="rememberMe" class="flex cursor-pointer select-none items-center gap-2.5 text-[13px] font-semibold text-slate-600">
+              <input id="rememberMe" name="remember" type="checkbox" class="h-4 w-4 rounded border-slate-300" />
+              Remember Me
+            </label>
+            <a href="#" id="forgotPassword" class="text-[13px] font-bold text-brand-600 transition hover:text-brand-800 hover:underline">Lupa password?</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" id="loginSubmit" class="btn-primary mt-2 w-full py-3 text-[15px] tracking-wide">
+            <span id="loginBtnLabel" class="flex items-center gap-2">
+              <i data-lucide="log-in" class="h-4 w-4"></i>
+              MASUK DASHBOARD
+            </span>
+            <span id="loginBtnLoading" class="hidden inline-flex items-center gap-2">
+              <span class="spinner"></span>
+              Memverifikasi...
+            </span>
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="my-5 flex items-center gap-3">
+          <span class="h-px flex-1 bg-[#E5E7EB]"></span>
+          <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">atau</span>
+          <span class="h-px flex-1 bg-[#E5E7EB]"></span>
+        </div>
+
+        <!-- Quick login demo -->
+        <button type="button" id="quickLoginBtn" class="btn-quick">
+          <span class="text-base leading-none">⚡</span>
+          Quick Admin Login Demo
+        </button>
+
+        <!-- Credential hint -->
+        <div class="mt-6 rounded-xl border border-[#E5E7EB] bg-white p-4">
+          <div class="flex items-start gap-2.5">
+            <i data-lucide="shield-check" class="mt-0.5 h-4 w-4 flex-none text-emerald-500"></i>
+            <div class="text-[12px] leading-relaxed text-slate-500">
+              <p class="font-bold text-slate-700">Demo Credentials</p>
+              <p class="mt-1">Username&nbsp;&nbsp;: <code class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-700">admin@fascinosa.com</code></p>
+              <p>Password&nbsp;&nbsp;&nbsp;&nbsp;: <code class="rounded bg-slate-100 px-1.5 py-0.5 font-semibold text-slate-700">adminpassword123</code></p>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-6 text-center text-[11px] font-medium text-slate-400">
+          © 2026 FASCINOSA · Sistem Admin Fashion Store
+        </p>
+      </main>
+    </section>
+  </div>
+
+  <!-- Auth module -->
+  <script src="assets/js/admin-auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · FASCINOSA Admin</title>
+  <meta name="description" content="Dashboard admin Toko Fashion FASCINOSA — statistik member, grafik pertumbuhan, dan manajemen data member." />
+  <meta name="theme-color" content="#F9FAFB" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234F46E5'/><text x='50' y='70' font-size='60' font-family='Arial,Helvetica,sans-serif' font-weight='bold' fill='white' text-anchor='middle'>F</text></svg>" />
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF', 100: '#E0E7FF', 200: '#C7D2FE', 300: '#A5B4FC',
+              400: '#818CF8', 500: '#6366F1', 600: '#4F46E5', 700: '#4338CA',
+              800: '#3730A3', 900: '#312E81'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="assets/css/admin.css" />
+</head>
+
+<body data-guard="auth" class="min-h-screen bg-[#F9FAFB] font-sans text-slate-800 antialiased">
+
+  <!-- ============================================================
+       TOAST CONTAINER
+       ============================================================ -->
+  <div id="toastContainer" class="pointer-events-none fixed right-4 top-4 z-[80] flex w-[calc(100%-2rem)] max-w-sm flex-col gap-3 sm:right-5 sm:top-5"></div>
+
+  <!-- ============================================================
+       SIDEBAR NAVIGATION
+       ============================================================ -->
+  <aside
+    id="adminSidebar"
+    class="fixed inset-y-0 left-0 z-50 flex w-[268px] -translate-x-full flex-col border-r border-[#E5E7EB] bg-white transition-transform duration-300 ease-out lg:translate-x-0">
+
+    <!-- Header sidebar -->
+    <div class="flex h-[72px] flex-none items-center gap-3 border-b border-[#E5E7EB] px-5">
+      <div class="grid h-10 w-10 flex-none place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-purple-600 text-base font-extrabold text-white shadow-lg shadow-brand-600/25">F</div>
+      <div class="min-w-0 leading-tight">
+        <p class="truncate text-[15px] font-extrabold tracking-tight text-slate-900">FASCINOSA</p>
+        <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Admin Panel</p>
+      </div>
+      <button
+        type="button"
+        id="sidebarClose"
+        class="ml-auto grid h-9 w-9 place-items-center rounded-lg border border-[#E5E7EB] text-slate-500 transition hover:bg-slate-50 lg:hidden"
+        aria-label="Tutup menu">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+    </div>
+
+    <!-- Navigasi -->
+    <nav class="fx-scroll min-h-0 flex-1 overflow-y-auto px-3 pb-4" aria-label="Menu utama admin">
+      <span class="nav-label">Menu Utama</span>
+
+      <!-- 1. Dashboard (aktif) -->
+      <a href="#mainContent" class="nav-item is-active" data-nav="dashboard">
+        <i data-lucide="layout-dashboard" class="h-[18px] w-[18px]"></i>
+        <span>Dashboard</span>
+        <span class="nav-badge" style="background:#ECFDF5;color:#047857;border-color:#D1FAE5;">Active</span>
+      </a>
+
+      <!-- 2. Data Member (aktif, smooth scroll) -->
+      <a href="#memberTable" class="nav-item" data-nav="members">
+        <i data-lucide="users" class="h-[18px] w-[18px]"></i>
+        <span>Data Member</span>
+        <span class="nav-badge" style="background:#ECFDF5;color:#047857;border-color:#D1FAE5;">Active</span>
+      </a>
+
+      <span class="nav-label">Phase 2</span>
+
+      <!-- 3. Loyalty & Points -->
+      <button type="button" class="nav-item is-disabled" data-soon="Loyalty &amp; Points" aria-disabled="true">
+        <i data-lucide="credit-card" class="h-[18px] w-[18px]"></i>
+        <span>Loyalty &amp; Points</span>
+        <span class="nav-badge badge-soon">Soon</span>
+      </button>
+
+      <!-- 4. Voucher & Promo -->
+      <button type="button" class="nav-item is-disabled" data-soon="Voucher &amp; Promo" aria-disabled="true">
+        <i data-lucide="ticket" class="h-[18px] w-[18px]"></i>
+        <span>Voucher &amp; Promo</span>
+        <span class="nav-badge badge-soon">Soon</span>
+      </button>
+
+      <!-- 5. Analytics & Report -->
+      <button type="button" class="nav-item is-disabled" data-soon="Analytics &amp; Report" aria-disabled="true">
+        <i data-lucide="activity" class="h-[18px] w-[18px]"></i>
+        <span>Analytics &amp; Report</span>
+        <span class="nav-badge badge-maintenance">Maintenance</span>
+      </button>
+
+      <!-- 6. System Settings -->
+      <button type="button" class="nav-item is-disabled" data-soon="System Settings" aria-disabled="true">
+        <i data-lucide="settings" class="h-[18px] w-[18px]"></i>
+        <span>System Settings</span>
+        <span class="nav-badge badge-maintenance">Maintenance</span>
+      </button>
+    </nav>
+
+    <!-- Profil admin + logout -->
+    <div class="flex-none border-t border-[#E5E7EB] p-3">
+      <div class="flex items-center gap-3 rounded-xl border border-[#E5E7EB] bg-slate-50 p-3">
+        <div class="grid h-9 w-9 flex-none place-items-center rounded-full bg-gradient-to-br from-slate-700 to-slate-900 text-xs font-extrabold text-white">AT</div>
+        <div class="min-w-0 flex-1 leading-tight">
+          <p class="truncate text-[13px] font-bold text-slate-800">Admin Toko</p>
+          <p class="truncate text-[11px] text-slate-500">admin@fascinosa.com</p>
+        </div>
+        <span class="h-2 w-2 flex-none rounded-full bg-emerald-500 ring-4 ring-emerald-500/15" title="Online"></span>
+      </div>
+
+      <button
+        type="button"
+        data-action="logout"
+        class="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white py-2.5 text-[13px] font-bold text-slate-600 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600">
+        <i data-lucide="log-out" class="h-4 w-4"></i>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Overlay sidebar (mobile) -->
+  <div id="sidebarOverlay" class="sidebar-overlay hidden lg:hidden"></div>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <div class="flex min-h-screen flex-col lg:pl-[268px]">
+
+    <!-- ==================== TOP HEADER BAR ==================== -->
+    <header class="sticky top-0 z-30 border-b border-[#E5E7EB] bg-[#F9FAFB]/85 backdrop-blur-md">
+      <div class="flex h-[72px] items-center gap-3 px-4 sm:px-6 lg:px-8">
+
+        <!-- Tombol buka sidebar (mobile) -->
+        <button
+          type="button"
+          id="sidebarToggle"
+          class="icon-btn lg:hidden"
+          aria-label="Buka menu navigasi">
+          <i data-lucide="menu" class="h-[18px] w-[18px]"></i>
+        </button>
+
+        <!-- Search bar global -->
+        <div class="relative hidden w-full max-w-md md:block">
+          <i data-lucide="search" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+          <input
+            id="globalSearch"
+            type="search"
+            placeholder="Cari nama, Member ID, atau No. HP..."
+            class="field-input bg-white pl-10 pr-14 text-sm"
+            aria-label="Pencarian global" />
+          <kbd class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-[#E5E7EB] bg-slate-50 px-1.5 py-0.5 text-[10px] font-bold text-slate-400">Ctrl K</kbd>
+        </div>
+
+        <!-- Search icon (mobile) -->
+        <button type="button" id="mobileSearchBtn" class="icon-btn md:hidden" aria-label="Cari member">
+          <i data-lucide="search" class="h-[18px] w-[18px]"></i>
+        </button>
+
+        <!-- Aksi kanan -->
+        <div class="ml-auto flex items-center gap-2 sm:gap-3">
+
+          <!-- Date range picker (dummy) -->
+          <div class="dropdown hidden sm:block">
+            <button
+              type="button"
+              id="dateRangeBtn"
+              class="flex h-10 items-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-3 text-[13px] font-bold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+              aria-haspopup="true"
+              aria-expanded="false">
+              <i data-lucide="calendar" class="h-4 w-4 text-slate-400"></i>
+              <span id="dateRangeLabel">Okt 2026</span>
+              <i data-lucide="chevron-down" class="h-3.5 w-3.5 text-slate-400"></i>
+            </button>
+            <div id="dateRangeMenu" class="dropdown-menu" role="menu">
+              <p class="px-3 pb-1.5 pt-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Rentang Tanggal</p>
+              <button type="button" class="dropdown-item" data-range="7 Hari Terakhir"><i data-lucide="clock" class="h-4 w-4 text-slate-400"></i>7 Hari Terakhir</button>
+              <button type="button" class="dropdown-item" data-range="30 Hari Terakhir"><i data-lucide="calendar-range" class="h-4 w-4 text-slate-400"></i>30 Hari Terakhir</button>
+              <button type="button" class="dropdown-item is-selected" data-range="Okt 2026"><i data-lucide="calendar-days" class="h-4 w-4 text-brand-500"></i>Okt 2026</button>
+              <button type="button" class="dropdown-item" data-range="Tahun 2026"><i data-lucide="calendar" class="h-4 w-4 text-slate-400"></i>Tahun 2026</button>
+            </div>
+          </div>
+
+          <!-- Notification bell -->
+          <div class="dropdown">
+            <button type="button" id="bellBtn" class="icon-btn" aria-label="Notifikasi" aria-haspopup="true" aria-expanded="false">
+              <i data-lucide="bell" class="h-[18px] w-[18px]"></i>
+              <span class="notification-dot"></span>
+            </button>
+            <div id="bellMenu" class="dropdown-menu" role="menu">
+              <div class="flex items-center justify-between px-3 pb-2 pt-2.5">
+                <p class="text-[13px] font-extrabold text-slate-800">Notifikasi</p>
+                <span class="rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-extrabold text-rose-600">3 Baru</span>
+              </div>
+              <button type="button" class="dropdown-item" data-toast="12 member baru bergabung bulan Oktober 2026.">
+                <span class="grid h-8 w-8 flex-none place-items-center rounded-full bg-emerald-50 text-emerald-600"><i data-lucide="user-plus" class="h-4 w-4"></i></span>
+                <span><span class="block font-bold text-slate-800">Member baru</span><span class="block text-[11px] font-medium text-slate-500">12 member bergabung bulan ini</span></span>
+              </button>
+              <button type="button" class="dropdown-item" data-toast="47 member inactive perlu program re-engagement.">
+                <span class="grid h-8 w-8 flex-none place-items-center rounded-full bg-amber-50 text-amber-600"><i data-lucide="user-x" class="h-4 w-4"></i></span>
+                <span><span class="block font-bold text-slate-800">Re-engagement</span><span class="block text-[11px] font-medium text-slate-500">47 member belum aktif 90 hari</span></span>
+              </button>
+              <button type="button" class="dropdown-item" data-toast="Backup data member terakhir: 01 Okt 2026, 03.00 WIB.">
+                <span class="grid h-8 w-8 flex-none place-items-center rounded-full bg-brand-50 text-brand-600"><i data-lucide="shield-check" class="h-4 w-4"></i></span>
+                <span><span class="block font-bold text-slate-800">Backup berhasil</span><span class="block text-[11px] font-medium text-slate-500">01 Okt 2026 · 03.00 WIB</span></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Avatar admin -->
+          <div class="flex h-10 items-center gap-2.5 rounded-xl border border-[#E5E7EB] bg-white pl-1.5 pr-3">
+            <span class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-brand-600 to-purple-600 text-[11px] font-extrabold text-white">AT</span>
+            <span class="hidden text-[13px] font-bold text-slate-700 sm:block">Admin Toko</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== KONTEN UTAMA ==================== -->
+    <main id="mainContent" class="mx-auto w-full max-w-[1500px] flex-1 space-y-6 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+
+      <!-- Page heading -->
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between fade-up">
+        <div>
+          <p class="text-[13px] font-bold text-brand-600">Selamat datang kembali, Admin 👋</p>
+          <h1 class="mt-1 text-[26px] font-extrabold leading-tight tracking-tight text-slate-900 sm:text-[30px]">
+            Ringkasan Toko Fashion FASCINOSA
+          </h1>
+          <p class="mt-1.5 text-sm text-slate-500">Pantau pertumbuhan member dan performa loyalitas toko Anda.</p>
+        </div>
+        <div class="flex flex-none gap-2">
+          <button type="button" class="btn-ghost" data-soon="Tambah Member">
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            Tambah Member
+          </button>
+          <button type="button" class="btn-ghost" id="btnRefresh">
+            <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+            Muat Ulang
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== RINGKASAN CARD STATISTIK ==================== -->
+      <section class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4" aria-label="Ringkasan statistik member">
+
+        <!-- 1. Total Member -->
+        <article class="fx-card metric-card p-5 fade-up delay-1">
+          <div class="flex items-start justify-between gap-3">
+            <span class="avatar-dot bg-brand-50 text-brand-600 ring-1 ring-brand-100">
+              <i data-lucide="users" class="h-5 w-5"></i>
+            </span>
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none" class="h-9 w-24 text-brand-400" fill="none" aria-hidden="true">
+              <polyline points="0,26 14,22 28,24 42,16 56,18 70,10 84,12 100,4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="mt-4 text-[13px] font-bold text-slate-500">Total Member</p>
+          <p class="mt-1 text-[30px] font-extrabold leading-none tracking-tight text-slate-900">1,245</p>
+          <p class="mt-3.5 flex flex-wrap items-center gap-2">
+            <span class="trend trend-up"><i data-lucide="trending-up" class="h-3.5 w-3.5"></i> ↑ +12.5% dari bulan lalu</span>
+          </p>
+        </article>
+
+        <!-- 2. Member Baru (Bulan Ini) -->
+        <article class="fx-card metric-card p-5 fade-up delay-2">
+          <div class="flex items-start justify-between gap-3">
+            <span class="avatar-dot bg-purple-50 text-purple-600 ring-1 ring-purple-100">
+              <i data-lucide="user-plus" class="h-5 w-5"></i>
+            </span>
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none" class="h-9 w-24 text-purple-400" fill="none" aria-hidden="true">
+              <polyline points="0,24 14,26 28,18 42,20 56,12 70,14 84,8 100,6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="mt-4 text-[13px] font-bold text-slate-500">Member Baru (Bulan Ini)</p>
+          <p class="mt-1 text-[30px] font-extrabold leading-none tracking-tight text-slate-900">32</p>
+          <p class="mt-3.5 flex flex-wrap items-center gap-2">
+            <span class="trend trend-up"><i data-lucide="trending-up" class="h-3.5 w-3.5"></i> ↑ +8.2% minggu ini</span>
+          </p>
+        </article>
+
+        <!-- 3. Active Member -->
+        <article class="fx-card metric-card p-5 fade-up delay-3">
+          <div class="flex items-start justify-between gap-3">
+            <span class="avatar-dot bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100">
+              <i data-lucide="user-check" class="h-5 w-5"></i>
+            </span>
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none" class="h-9 w-24 text-emerald-400" fill="none" aria-hidden="true">
+              <polyline points="0,20 14,18 28,21 42,15 56,17 70,13 84,14 100,11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="mt-4 text-[13px] font-bold text-slate-500">Active Member</p>
+          <p class="mt-1 text-[30px] font-extrabold leading-none tracking-tight text-slate-900">1,198</p>
+          <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+            <div class="h-full w-[96%] rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+          </div>
+          <p class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="trend trend-up"><i data-lucide="trending-up" class="h-3.5 w-3.5"></i> 96.2% dari total</span>
+          </p>
+        </article>
+
+        <!-- 4. Inactive Member -->
+        <article class="fx-card metric-card p-5 fade-up delay-4">
+          <div class="flex items-start justify-between gap-3">
+            <span class="avatar-dot bg-rose-50 text-rose-600 ring-1 ring-rose-100">
+              <i data-lucide="user-x" class="h-5 w-5"></i>
+            </span>
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none" class="h-9 w-24 text-rose-400" fill="none" aria-hidden="true">
+              <polyline points="0,6 14,9 28,7 42,13 56,11 70,17 84,20 100,26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <p class="mt-4 text-[13px] font-bold text-slate-500">Inactive Member</p>
+          <p class="mt-1 text-[30px] font-extrabold leading-none tracking-tight text-slate-900">47</p>
+          <p class="mt-3.5 flex flex-wrap items-center gap-2">
+            <span class="trend trend-down"><i data-lucide="trending-down" class="h-3.5 w-3.5"></i> ↓ -2.1% butuh re-engagement</span>
+          </p>
+        </article>
+      </section>
+
+      <!-- ==================== CHART SECTION ==================== -->
+      <section class="fx-card fade-up delay-3" aria-label="Grafik pertumbuhan member">
+        <div class="flex flex-col gap-4 border-b border-[#E5E7EB] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div>
+            <h2 class="text-base font-extrabold tracking-tight text-slate-900">Pertumbuhan Member Baru 2026</h2>
+            <p class="mt-0.5 text-[13px] text-slate-500">Perbandingan member baru terhadap target bulanan · Jan – Okt 2026</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+            <span class="flex items-center gap-2 text-[12px] font-bold text-slate-600">
+              <span class="h-2.5 w-2.5 rounded-full bg-brand-600"></span> Member Baru
+            </span>
+            <span class="flex items-center gap-2 text-[12px] font-bold text-slate-600">
+              <span class="h-0.5 w-5 rounded-full bg-slate-300"></span> Target 30 / bulan
+            </span>
+          </div>
+        </div>
+        <div class="p-4 sm:p-6">
+          <div class="relative h-[280px] w-full sm:h-[330px]">
+            <canvas id="growthChart" aria-label="Grafik line pertumbuhan member baru 2026" role="img"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TABEL MANAJEMEN MEMBER ==================== -->
+      <section id="memberTable" class="fx-card scroll-mt-24 fade-up delay-4" aria-label="Tabel manajemen member">
+        <!-- Toolbar -->
+        <div class="flex flex-col gap-4 border-b border-[#E5E7EB] p-5 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <h2 class="text-base font-extrabold tracking-tight text-slate-900">Manajemen Data Member</h2>
+              <span id="selectedChip" class="hidden inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-extrabold text-brand-700 ring-1 ring-brand-100">
+                <span id="selectedCount">0</span> dipilih
+                <button type="button" id="clearSelection" class="ml-0.5 rounded-full hover:text-brand-900" aria-label="Batalkan pilihan">
+                  <i data-lucide="x" class="h-3 w-3"></i>
+                </button>
+              </span>
+            </div>
+            <p class="mt-1 text-[13px] text-slate-500">Kelola status keanggotaan dan informasi kontak member FASCINOSA.</p>
+          </div>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <!-- Search tabel -->
+            <div class="relative sm:w-64">
+              <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+              <input
+                id="memberSearch"
+                type="search"
+                placeholder="Cari nama, ID, no. HP..."
+                class="field-input py-2.5 pl-9 pr-3 text-[13px]"
+                aria-label="Cari member" />
+            </div>
+
+            <!-- Filter status -->
+            <div class="relative sm:w-44">
+              <select id="statusFilter" class="field-input py-2.5 pl-3 pr-9 text-[13px]" aria-label="Filter status member">
+                <option value="all">Semua Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
+            <!-- Export Excel -->
+            <button type="button" id="btnExportExcel" class="btn-dark">
+              <i data-lucide="download" class="h-4 w-4 text-emerald-400"></i>
+              Export Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel -->
+        <div class="fx-scroll overflow-x-auto">
+          <table class="fx-table min-w-[980px]">
+            <thead>
+              <tr>
+                <th scope="col" class="w-12">
+                  <input id="selectAll" type="checkbox" class="h-4 w-4 rounded border-slate-300" aria-label="Pilih semua member" />
+                </th>
+                <th scope="col">Member ID</th>
+                <th scope="col">Nama Member</th>
+                <th scope="col">No. Handphone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Status</th>
+                <th scope="col">Tanggal Bergabung</th>
+                <th scope="col" style="text-align:right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="memberTableBody"><!-- dirender oleh admin-dashboard.js --></tbody>
+          </table>
+        </div>
+
+        <!-- Empty state -->
+        <div id="emptyState" class="hidden px-5 py-14 text-center">
+          <span class="table-empty-illustration"><i data-lucide="search-x" class="h-7 w-7"></i></span>
+          <p class="mt-4 text-sm font-extrabold text-slate-700">Member tidak ditemukan</p>
+          <p class="mt-1 text-[13px] text-slate-500">Coba ubah kata kunci pencarian atau filter status Anda.</p>
+        </div>
+
+        <!-- Pagination dummy -->
+        <div class="flex flex-col gap-3 border-t border-[#E5E7EB] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p id="tableInfo" class="text-[13px] font-semibold text-slate-500">Showing 1-8 of 1,245 members</p>
+          <div class="flex items-center gap-1.5">
+            <button type="button" class="page-btn" disabled aria-label="Halaman sebelumnya">
+              <i data-lucide="chevron-left" class="h-4 w-4"></i>
+            </button>
+            <button type="button" class="page-btn is-active" data-page="1">1</button>
+            <button type="button" class="page-btn" data-page="2">2</button>
+            <button type="button" class="page-btn" data-page="3">3</button>
+            <span class="px-1 text-[13px] font-bold text-slate-400">…</span>
+            <button type="button" class="page-btn" data-page="156">156</button>
+            <button type="button" class="page-btn" data-page="next" aria-label="Halaman berikutnya">
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="flex flex-col items-center justify-between gap-2 border-t border-[#E5E7EB] pt-5 text-[12px] font-medium text-slate-400 sm:flex-row">
+        <span>© 2026 FASCINOSA Fashion Store · Admin Dashboard</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="h-3.5 w-3.5"></i> Version 1.0 · Phase 1</span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ============================================================
+       MODAL DETAIL / EDIT MEMBER
+       ============================================================ -->
+  <div id="memberModal" class="modal-shell fixed inset-0 z-[70] hidden overflow-y-auto p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel" id="modalContent"><!-- dirender oleh admin-dashboard.js --></div>
+  </div>
+
+  <!-- CDN: SheetJS (Export Excel) & Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- App scripts -->
+  <script src="assets/js/admin-auth.js"></script>
+  <script src="assets/js/admin-dashboard.js"></script>
+</body>
+</html>
